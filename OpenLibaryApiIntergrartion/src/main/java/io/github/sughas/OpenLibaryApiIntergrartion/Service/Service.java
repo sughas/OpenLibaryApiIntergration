@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 @org.springframework.stereotype.Service
 public class Service implements ServiceInterface {
-	
+
 	@Autowired
 	RestTemplate restTemplate;
 
@@ -23,19 +23,22 @@ public class Service implements ServiceInterface {
 	@Override
 	public Map<String, Object> getfromOpenlibray(Map<String, Object> title) {
 		System.out.println(title);
-		String url="";
-		Set<String> search=title.keySet();
+		String url = "";
+		Set<String> search = title.keySet();
+		System.out.println(search.size());
 		for (String se : search) {
-			System.out.println("key "+se+" value "+title.get(se));
-		url="http://openlibrary.org/search.json?"+se+"="+title.get(se);
-		//return restTemplate.getForEntity(url, ResponseEntity.class);
-		System.out.println(url);
+			if ((se.equals("tilte") || se.equals("author") || se.equals("q"))&& (search.size()==1)) {
+				System.out.println("key " + se + " value " + title.get(se));
+				url = "http://openlibrary.org/search.json?" + se + "=" + title.get(se);
+				// return restTemplate.getForEntity(url, ResponseEntity.class);
+				System.out.println(url);
+			}
 		}
 		HttpHeaders headers = new HttpHeaders();
-	      headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-	      HttpEntity <String> entity = new HttpEntity<String>(headers);
-	      
-	      return (Map<String, Object>) restTemplate.exchange(url, HttpMethod.GET, entity, Map.class).getBody();
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+		return (Map<String, Object>) restTemplate.exchange(url, HttpMethod.GET, entity, Map.class).getBody();
 	}
 
 	/*
