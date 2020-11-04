@@ -1,6 +1,7 @@
 # OpenLibaryApiIntergration
 
-Api only works with Request type <br/>
+Api only works with Request type  only one request at a time.<br/>
+
 {
 "title":"Book Title"
 }
